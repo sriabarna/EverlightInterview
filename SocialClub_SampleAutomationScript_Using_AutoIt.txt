@@ -1,0 +1,61 @@
+import java.io.File;
+
+import com.jacob.com.LibraryLoader;
+
+import autoitx4java.AutoItX;
+
+public class SocialClub {
+	
+	public static String jvmBitVersion(){
+	 return System.getProperty("sun.arch.data.model");
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		String jacobDllVersionToUse = "jacob-1.18-x64.dll";
+		//if (jvmBitVersion().contains("32"))
+		//{
+		//jacobDllVersionToUse = "jacob-1.18-x86.dll";
+		//}
+		//else 
+		//{
+		//jacobDllVersionToUse = "jacob-1.18-x64.dll";
+		//}
+		
+		File file = new File("lib", jacobDllVersionToUse);
+		System.setProperty(LibraryLoader.JACOB_DLL_PATH, file.getAbsolutePath());
+
+		AutoItX x = new AutoItX();
+		x.run("John.SocialClub.sln");
+		
+		//*************************Login************************************
+		if (x.winExists("Social club - Login")) {
+			x.controlClick("Social club - Login", "", "460932"); 
+			x.send("demo"); // input userName
+			x.controlClick("Social club - Login", "", "2556886"); 
+			x.send("demo123"); // input password
+		}
+		x.controlClick("Social club - Login", "", "918776");
+		x.mouseClick("", 1, 0);
+		
+		//*******************************Registration************************
+		x.controlClick("Social Club - Membership Manager", "", "2229816"); // on Registration tab
+		x.controlClick("Social Club - Membership Manager", "", "2296306"); 
+		x.send("Abarna"); // new Username
+		x.controlClick("Social Club - Membership Manager", "", "4983076"); 
+		x.mouseDown("left"); // select occupation
+		x.mouseUp("left");
+		x.controlClick("Social Club - Membership Manager", "", "1574802"); 
+		x.send("34000"); // salary
+		x.controlClick("Social Club - Membership Manager", "", "2165060"); 
+		x.mouseDown("left"); // select marital status
+		x.mouseUp("left");
+		x.controlClick("Social Club - Membership Manager", "", "1115962"); 
+		x.mouseDown("left"); // select health status
+		x.mouseUp("left");
+		x.controlClick("Social Club - Membership Manager", "", "1050980"); 
+		x.send("2"); // no of children
+		x.controlClick("Social Club - Membership Manager", "", "6817260");
+		x.mouseClick("", 1, 0);
+		}
+
+}

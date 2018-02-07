@@ -1,0 +1,85 @@
+import java.util.Set;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.Select;
+
+public class SocialClub {
+
+	public static void main(String[] args) {
+			
+		System.setProperty("webdriver.chrome.driver", "willprovide the chromeDrive.exe path");
+		 
+		// Initialize browser
+		WebDriver driver=new ChromeDriver();
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		 
+		// Open Test Env
+		driver.get("will provide the SocialClub.exe file");
+		 
+		// Maximize browser
+		driver.manage().window().maximize();
+		
+		try{
+            System.out.println("SociaClub Application Flow");
+//   		Thread.sleep(5000);
+            logon();
+            register();
+            } 
+		catch (Exception e) {                                      
+            e.printStackTrace();
+          }
+		
+		// ******************************************* Logon ******************************************************* //
+
+		private static void logon()throws InterruptedException{
+		              try{                                      
+		            	    driver.findElement(//provide the ID of the UserName Text field).sendKeys("demo");           
+		            		driver.findElement(//provide the ID of the Password Text field).sendKeys("demo123");
+		            		driver.findElement(//provide the id of Login button).submit();
+		            		System.out.println("Login is successfull");
+		              }               
+		              catch(Exception e){           	  
+		            	  
+		            	  
+		              }
+		}
+		
+		//**************************************** Register **************************************
+		
+		private static void register()throws InterruptedException{
+            try{ 
+            	Select occupation = new Select(driver.findElement(//id of the Occupation dropdown list)));
+            	Select marital = new Select(driver.findElement(//id of the Marital Status dropdown list)));
+            	driver.findElement(//provide the ID of the UserName Text field).sendKeys("Abarna");           
+	            driver.findElement(//provide the ID of the No Of Children Text field).sendKeys("2");
+	            driver.findElement(//provide the ID of the Salary Text field).sendKeys("345670");
+	            occupation.selectByVisibleText("Doctor");
+	            marital.selectByVisibleText("Married");
+	            driver.findElement(//provide the ID of the datePicker and select).click();
+	            driver.findElement(//provide the id of register button).submit();
+	            // Overlay logic
+	            String parentWindowHandler = driver.getWindowHandle(); // Store your parent window
+                String subWindowHandler = null;
+
+                 Set<String> handles = driver.getWindowHandles(); // get all window handles
+                 Iterator<String> iterator = handles.iterator();
+                 while (iterator.hasNext()){
+                         subWindowHandler = iterator.next();
+                 }
+                 driver.switchTo().window(subWindowHandler); // switch to popup window
+                 Thread.sleep(5000);          
+                 driver.findElement(By.xpath("//*[@id='overlayBoxSlot']/div/div[3]/ul/li[3]/a")).click();
+                 driver.switchTo().window(parentWindowHandler);  // switch back to parent window
+          		System.out.println("registration is successfull");
+            }               
+            catch(Exception e){           	  
+          	  
+          	  
+            }
+		}
+	}
